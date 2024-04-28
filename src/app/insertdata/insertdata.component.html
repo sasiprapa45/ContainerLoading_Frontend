@@ -1,0 +1,21 @@
+<div class="content" role="main">
+<p>Create New Project ! </p>
+  <p>Here are some links to help you get started:</p>
+  <img src="assets/img/container1.png">
+  <form nz-form>
+    <nz-form-item>
+      <nz-form-label nzFor="Pname">Project Name:</nz-form-label>
+      <nz-form-control [nzSpan]="20">
+        <input nz-input name="pname"  id="pname" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+    <input type="file" name="file" id="file" class="inputfile" (change)="ReadExcel($event)"/>
+      <label for="file">Choose Excal file</label>
+    </nz-form-item>
+
+  </form>
+
+</div>
+
+
