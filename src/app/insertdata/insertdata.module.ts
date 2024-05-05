@@ -5,7 +5,8 @@ import { InsertdataRoutingModule } from './insertdata-routing.module';
 import { InsertdataComponent } from './insertdata.component';
 
 import { HomeModule } from '../home/home.module';
-import { AppModule } from '../app.module';
+// import { AppModule } from '../app.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { AppModule } from '../app.module';
   imports: [
     InsertdataRoutingModule,
     CommonModule,
-    AppModule,
+    // AppModule,
+    FormsModule,
   ]
 })
 export class InsertdataModule { }
