@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
+import {CargoesFormRequest} from './interfaces/insert-form';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,17 +10,17 @@ export class LoadingServiceService {
 
   constructor(private http: HttpClient) { }
 
-  addNewProject(name: any) : Observable<any>{
-    const api = this.apiUrl+'newProject';
-    return this.http.post(api, name);
+  public addNewProject(projectName: string) {
+    const apiUrl = this.apiUrl+`addProject/${projectName}/`; // เปลี่ยน URL เป็น URL ของ API Endpoint ใหม่
+    return this.http.get(apiUrl);
   }
 
-  addCargoes(data: any[]) : Observable<any>{
-    const api = this.apiUrl+'addCargoes';
+  public addCargoes(data: CargoesFormRequest[]) : Observable<any>{
+    const api = this.apiUrl+'addCargoes/';
     return this.http.post(api, data);
   }
 
-  addContainer(data: any[]) : Observable<any>{
+  public addContainer(data: any[]) : Observable<any>{
     const api = this.apiUrl+'addContainer';
     return this.http.post(api, data);
   }
