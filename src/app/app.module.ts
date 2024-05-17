@@ -11,6 +11,9 @@ import en from '@angular/common/locales/en';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HomeModule } from './home/home.module';
+import { InsertdataComponent } from './insertdata/insertdata.component';
+import { HomeComponent } from './home/home.component';
+import { CommonModule } from '@angular/common';
 
 
 registerLocaleData(en);

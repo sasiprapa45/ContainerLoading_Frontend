@@ -1,20 +1,34 @@
-<div class="content" role="main">
-<p>Create New Project ! </p>
-  <p>Here are some links to help you get started:</p>
-  <img src="assets/img/container1.png">
-  <form nz-form>
-    <nz-form-item>
-      <nz-form-label nzFor="Pname">Project Name:</nz-form-label>
-      <nz-form-control [nzSpan]="20">
-        <input nz-input name="pname"  id="pname" [(ngModel)]="projectName"/>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-    <input type="file" name="file" id="file" class="inputfile" (change)="ReadExcel($event)"/>
-      <label for="file">Choose Excal file</label>
-    </nz-form-item>
-    <button  (click)="Submit()">genarate</button>
-  </form>
+<div *ngIf="isLoading; else dataContent">
+  <div class="content" role="main">
+    <p>Create New Project ! </p>
+      <p>Here are some links to help you get started:</p>
+      <img src="assets/img/container1.png">
+      <form nz-form>
+        <nz-form-item>
+          <nz-form-label nzFor="Pname">Project Name:</nz-form-label>
+          <nz-form-control [nzSpan]="20">
+            <input nz-input name="pname"  id="pname" [(ngModel)]="projectName"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+        <input type="file" name="file" id="file" class="inputfile" (change)="ReadExcel($event)"/>
+          <label for="file">Choose Excal file</label>
+        </nz-form-item>
+        <button  (click)="Submit()">genarate</button>
+        <button (click)="sendDataToReceiver()">Send Data</button>
+      </form>
+    </div>
+
 </div>
+
+
+<ng-template #dataContent>
+  <div class="content" role="main">
+    <img src="assets/img/load1.gif" alt="Loading..." />
+  </div>
+
+</ng-template>
+
+
 
 
