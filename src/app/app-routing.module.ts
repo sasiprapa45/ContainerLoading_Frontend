@@ -9,8 +9,7 @@ import { HomeComponent } from './home/home.component';
 
 // const routes: Routes = [{ path: 'insertdata', loadChildren: () => import('./insertdata/insertdata.module').then(m => m.InsertdataModule) }, { path: 'projects', loadChildren: () => import('./projects/projects.module').then(m => m.ProjectsModule) }, { path: 'loading', loadChildren: () => import('./loading/loading.module').then(m => m.LoadingModule) }];
 const routes: Routes = [ { path: 'Insertdata', component: InsertdataComponent },{ path: 'projects', component: ProjectsComponent }, { path: 'loading', component: LoadingComponent }, { path: '', component: HomeComponent},  {
-  path: 'loading',loadChildren: () => import('./loading/loading.module').then((m) => m.LoadingModule ),
-}];
+  path: 'loading',loadChildren: () => import('./loading/loading.module').then((m) => m.LoadingModule )},{ path: 'Insertdata',loadChildren: () => import('./insertdata/insertdata.module').then((m) => m.InsertdataModule ),}];
 @NgModule({
   imports: [CommonModule,RouterModule.forRoot(routes), RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
   exports: [RouterModule]

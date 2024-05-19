@@ -8,7 +8,9 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { InsertdataModule } from '../insertdata/insertdata.module';
 import { AppModule } from '../app.module';
 import { FormsModule } from '@angular/forms';
-
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzTabsModule } from 'ng-zorro-antd/tabs';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -20,6 +22,9 @@ import { FormsModule } from '@angular/forms';
     NzFormModule,
     AppModule,
     FormsModule,
+    NzTableModule,
+    NzDividerModule,
+    NzTabsModule,
   ]
 })
 export class HomeModule { }

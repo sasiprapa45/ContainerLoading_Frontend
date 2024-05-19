@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import * as THREE from 'three';
 import { OrbitControls } from 'three-orbitcontrols-ts';
-import { ContainerFormResponse, PositionCargoesFormResponse } from '../interfaces/insert-form';
+import { ContainerFormResponse, PositionCargoesFormResponse, ProjectFormResponse } from '../interfaces/insert-form';
 import { LoadingServiceService } from '../loading-service.service'
 
 @Component({
@@ -22,13 +22,35 @@ export class LoadingComponent implements OnInit, AfterViewInit {
   controls!: OrbitControls;
   cargoes: PositionCargoesFormResponse[] = [];
   container: ContainerFormResponse[] = [];
-
+  visible = false;
+  projectId:any;
+  projectData:any;
 
   constructor(private route: ActivatedRoute, private loadingServiceService: LoadingServiceService) { }
 
   ngOnInit(): void {
-    const projectId = 22; // เปลี่ยนเป็น project_id ที่คุณต้องการค้นหา
-    this.loadingServiceService.getContainerByProject(projectId).subscribe(
+    this.route.queryParams.subscribe(params => {
+     this.projectId = params['id'];
+      console.log('Project ID:',  this.projectId);
+      this.loadingServiceService.getProjectByProject(this.projectId).subscribe(
+        (data: ProjectFormResponse[]) => {
+          this.projectData = data;
+          console.log(this.projectData);
+        },
+        error => {
+          console.error('Error fetching positions:', error);
+        }
+      );
+
+      // นำ projectId ไปใช้งานต่อได้เช่นเดียวกับที่คุณต้องการ
+  });
+    
+    // const projectId = 1; // เปลี่ยนเป็น project_id ที่คุณต้องการค้นหา
+
+  }
+
+  ngAfterViewInit() {
+    this.loadingServiceService.getContainerByProject(this.projectId).subscribe(
       (data: ContainerFormResponse[]) => {
         this.container = data;
         console.log(this.container);
@@ -37,7 +59,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
         console.error('Error fetching positions:', error);
       }
     );
-    this.loadingServiceService.getPositionsByProject(projectId).subscribe(
+    this.loadingServiceService.getPositionsByProject(this.projectId).subscribe(
       (data: PositionCargoesFormResponse[]) => {
         this.cargoes = data;
         console.log(this.cargoes);
@@ -47,11 +69,6 @@ export class LoadingComponent implements OnInit, AfterViewInit {
         console.error('Error fetching positions:', error);
       }
     );
-
-
-  }
-
-  ngAfterViewInit() {
 
 
   }
@@ -148,7 +165,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
           // Adjust axes: X = width, Y = height, Z = length
           const cargoGeometry = new THREE.BoxGeometry(scaledCargoWidth, scaledCargoHeight, scaledCargoLength);
           const cargoMaterial = new THREE.MeshBasicMaterial({
-            color: this.getColorByType(cargo.type_cargo_id),
+            color: new THREE.Color(cargo.color),
             transparent: true,
             opacity: 0.5 // Set opacity to make the box look transparent
           });
@@ -171,14 +188,14 @@ export class LoadingComponent implements OnInit, AfterViewInit {
       });
     });
   }
-  getColorByType(type: number): number {
-    switch(type) {
-      case 1: return 0xff0000; // Red
-      case 2: return 0x00ff00; // Green
-      case 3: return 0x0000ff; // Blue
-      default: return 0xffffff; // White
-    }
-  }
+  // getColorByType(type: number): number {
+  //   switch(type) {
+  //     case 1: return 0xff0000; // Red
+  //     case 2: return 0x00ff00; // Green
+  //     case 3: return 0x0000ff; // Blue
+  //     default: return 0xffffff; // White
+  //   }
+  // }
 
   animate() {
     requestAnimationFrame(() => {
@@ -198,131 +215,13 @@ export class LoadingComponent implements OnInit, AfterViewInit {
   render() {
     this.renderer.render(this.scene, this.camera);
   }
+
+  open(): void {
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
+  }
+
 }
-// init() {
-  //   const width = this.rendererContainer.nativeElement.clientWidth;
-  //   const height = this.rendererContainer.nativeElement.clientHeight;
-
-  //   // Create scene
-  //   this.scene = new THREE.Scene();
-
-  //   // Create camera
-  //   this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-  //   this.camera.position.Z = 5;
-
-  //   // Create renderer
-  //   this.renderer = new THREE.WebGLRenderer();
-  //   this.renderer.setSize(width, height);
-  //   this.rendererContainer.nativeElement.appendChild(this.renderer.domElement);
-
-  //   // Create cube
-  //   const geometry = new THREE.BoxGeometry();
-  //   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  //   const cube = new THREE.Mesh(geometry, material);
-  //   this.scene.add(cube);
-  // }
-
-  // animate() {
-  //   requestAnimationFrame(() => this.animate());
-  //   this.renderer.render(this.scene, this.camera);
-  // }
-
-  // clickG(){
-  //   this.init();
-  //   this.animate();
-  // }
-
-
-
-
-
-
-
-
-
-
-// createThreeJsBox(): void {
-  //   const canvas = document.getElementById('canvas-box');
-
-  //   const scene = new THREE.Scene();
-
-  //   const material = new THREE.MeshToonMaterial();
-
-  //   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-  //   scene.add(ambientLight);
-
-  //   const pointLight = new THREE.PointLight(0xffffff, 0.5);
-  //   pointLight.position.X = 2;
-  //   pointLight.position.Y = 2;
-  //   pointLight.position.Z = 2;
-  //   scene.add(pointLight);
-
-  //   const box = new THREE.Mesh(
-  //     new THREE.BoxGeometry(1.5, 1.5, 1.5),
-  //     material
-  //   );
-
-  //   const torus = new THREE.Mesh(
-  //     new THREE.TorusGeometry(5, 1.5, 16, 100),
-  //     material
-  //   );
-
-  //   scene.add(torus, box);
-
-  //   const canvasSizes = {
-  //     width: window.innerWidth,
-  //     height: window.innerHeight,
-  //   };
-
-  //   const camera = new THREE.PerspectiveCamera(
-  //     75,
-  //     canvasSizes.width / canvasSizes.height,
-  //     0.001,
-  //     1000
-  //   );
-  //   camera.position.Z = 30;
-  //   scene.add(camera);
-
-  //   if (!canvas) {
-  //     return;
-  //   }
-
-  //   const renderer = new THREE.WebGLRenderer({
-  //     canvas: canvas,
-  //   });
-  //   renderer.setClearColor(0xe232222, 1);
-  //   renderer.setSize(canvasSizes.width, canvasSizes.height);
-
-  //   window.addEventListener('resize', () => {
-  //     canvasSizes.width = window.innerWidth;
-  //     canvasSizes.height = window.innerHeight;
-
-  //     camera.aspect = canvasSizes.width / canvasSizes.height;
-  //     camera.updateProjectionMatrix();
-
-  //     renderer.setSize(canvasSizes.width, canvasSizes.height);
-  //     renderer.render(scene, camera);
-  //   });
-
-  //   const clock = new THREE.Clock();
-
-  //   const animateGeometry = () => {
-  //   const elapsedTime = clock.getElapsedTime();
-
-  //   // Update animation objects
-  //   box.rotation.X = elapsedTime;
-  //   box.rotation.Y = elapsedTime;
-  //   box.rotation.Z = elapsedTime;
-
-  //   torus.rotation.X = -elapsedTime;
-  //   torus.rotation.Y = -elapsedTime;
-  //   torus.rotation.Z = -elapsedTime;
-
-  //   // Render
-  //   renderer.render(scene, camera);
-
-  //   // Call animateGeometry again on the next frame
-  //   window.requestAnimationFrame(animateGeometry);
-  // };
-  // animateGeometry();
-  // }

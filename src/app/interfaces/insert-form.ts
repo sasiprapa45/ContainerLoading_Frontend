@@ -1,3 +1,4 @@
+import { NzTableFilterFn, NzTableFilterList, NzTableSortFn, NzTableSortOrder } from 'ng-zorro-antd/table';
 export interface CargoesFormRequest {
   name?: string,
   type_cargo?: number,
@@ -32,15 +33,38 @@ export interface PositionCargoesFormResponse {
   height?: number,
   width?: number,
   length?: number,
+  color?: string,
   container_id?: number,
 }
 
 export interface ContainerFormResponse {
   id?: number,
   type_container_id?: number,
-  type_container_name: string,
+  type_container_name?: string,
   height?: number,
   width?: number,
   length?: number,
   project_id?: number,
+}
+
+
+export interface ColumnItem {
+  name: string;
+  sortOrder: NzTableSortOrder | null;
+  sortFn: NzTableSortFn<CargoesFormRequest[]> | null;
+  listOfFilter: NzTableFilterList;
+  filterFn: NzTableFilterFn<CargoesFormRequest[]> | null;
+  filterMultiple: boolean;
+  sortDirections: NzTableSortOrder[];
+}
+
+
+export interface ProjectFormResponse {
+  id?: number,
+  name?: string,
+  cargoes_qty?: number,
+  cargoes_packed?: number,
+  container_qty?: number,
+  container_used?: number,
+  fitness?: number,
 }

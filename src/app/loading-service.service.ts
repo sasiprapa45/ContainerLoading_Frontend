@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {CargoesFormRequest, ContainerFormRequest, ContainerFormResponse, PositionCargoesFormResponse} from './interfaces/insert-form';
+import {CargoesFormRequest, ContainerFormRequest, ContainerFormResponse, PositionCargoesFormResponse, ProjectFormResponse} from './interfaces/insert-form';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,5 +36,9 @@ export class LoadingServiceService {
 
   public getContainerByProject(projectId: number): Observable<ContainerFormResponse[]> {
     return this.http.get<ContainerFormResponse[]>(`${this.apiUrl}container_by_pid/${projectId}/`);
+  }
+
+  public getProjectByProject(projectId: number): Observable<ProjectFormResponse[]> {
+    return this.http.get<ProjectFormResponse[]>(`${this.apiUrl}project_by_pid/${projectId}/`);
   }
 }
