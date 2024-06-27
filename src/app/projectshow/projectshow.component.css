@@ -1,0 +1,68 @@
+.logo {
+  height: 80px;
+  width: 100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+}
+
+nz-header {
+  background: #fff;
+  padding: 0;
+  height: 80px
+}
+nz-sider {
+  background: #3D48ED;
+
+}
+nz-sider li{
+  background: #3D48ED;
+  font-size: 17px;
+  color: #fff;
+}
+
+.delete:hover{
+  background: #FF0000;
+}
+nz-sider ul{
+  background: #3D48ED;
+}
+
+nz-content {
+  margin: 0 16px;
+}
+
+nz-breadcrumb {
+  margin: 16px 0;
+}
+
+.inner-content {
+  padding: 24px;
+  background: #fff;
+  min-height: 900px;
+}
+
+.texthead {
+  padding: 20px 16px;
+  color: #fff;
+  font-weight: bold;
+  background: #f9b234;
+  height: 80px;
+  text-align: right;
+  font-size:30px;
+  box-shadow: 10px 6px 10px rgba(233, 233, 235, 0.25);
+}
+.text2 {
+  color: #3D48ED;
+  background: #f9b234;
+  height: 80px;
+}
+
+.text2 p{
+  padding: 10px 0px;
+}
+
+
+
+
+
+
+

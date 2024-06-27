@@ -1,1 +1,52 @@
-<p>projects works!</p>
+
+
+
+<nz-layout>
+  <nz-header class="bh">
+    <h1><span nz-icon nzType="file-text" nzTheme="outline"></span> My Projects:</h1>
+  </nz-header>
+  <nz-content class="bc">
+    <div class="inner-content">
+
+    <div class="ag-format-container">
+      <div class="ag-courses_box">
+        <div class="ag-courses_item" [routerLink]="'/home/Insertdata'">
+          <a  class="ag-courses-item_link1">
+            <span nz-icon nzType="plus-circle" nzTheme="outline" style="font-size: 100px; color: #fff;"></span>
+            <h3>add New Project</h3>
+          </a>
+
+        </div>
+        <div class="ag-courses_item" *ngFor="let project of projectData" (click)="viewProject(project.id)">
+          <a  class="ag-courses-item_link">
+            <div class="ag-courses-item_bg"></div>
+
+            <div class="ag-courses-item_title">
+              {{ project.name }}
+            </div>
+
+            <div class="ag-courses-item_date-box">
+              Cargoes:
+              <span class="ag-courses-item_date">
+                {{ project.cargoes_qty }}
+              </span>
+            </div>
+            <div class="ag-courses-item_date-box">
+              Containers:
+              <span class="ag-courses-item_date">
+                {{ project.container_qty }}
+              </span>
+            </div>
+            <div class="ag-courses-item_date-box">
+              Fitness Value:
+              <span class="ag-courses-item_date">
+                {{ project.fitness }}
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    </div>
+  </nz-content>
+</nz-layout>

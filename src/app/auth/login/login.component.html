@@ -1,0 +1,52 @@
+
+<div class="content" role="main">
+  
+  <div class="container">
+    
+    <div class="image-container">
+      <div class="top-left">Welcome  </div>
+      <hr class="divider">
+      <div class="top-left1"><span>to</span> Container Loading</div>
+    </div>
+    <div class="form-container">
+       <img src="assets/img/logoB.jpg" alt="Illustration">
+        <div>
+          <h2 class='text1'>Welcome to <span >Container Loading</span></h2>
+          <h3 class='text1'>Sign into your account</h3>
+        </div>
+        <form nz-form [formGroup]="loginForm" (ngSubmit)="login()"nzLayout="vertical">
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>Username</nz-form-label>
+            <nz-form-control  nzHasFeedback [nzErrorTip]="userErrorTpl">
+              <input nz-input formControlName="username" placeholder="Username" />
+              <ng-template #userErrorTpl let-control>
+                <ng-container *ngIf="control.errors?.['required']">
+                  Please input your username!
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSpan]="7" nzRequired>Password</nz-form-label>
+            <nz-form-control nzHasFeedback [nzErrorTip]="passwordErrorTpl">
+              <input nz-input type="password" formControlName="password" placeholder="Password" />
+              <ng-template #passwordErrorTpl let-control>
+                <ng-container *ngIf="control.errors?.['required']">
+                  Please input your password!
+                </ng-container>
+              </ng-template>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control >
+              <button nz-button type="submit" nzType="primary">Login</button>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+        <div class="register-link">
+          <p>Don't have an account? <a href="/register">Register</a></p>
+        </div>
+    </div>
+
+  </div>
+</div>

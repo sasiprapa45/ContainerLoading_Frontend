@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 import { NzGridModule } from 'ng-zorro-antd/grid';
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
     NzGridModule,
     NzTableModule,
     NzDividerModule,
+    NzRadioModule,
     // AppModule,
   ]
 })

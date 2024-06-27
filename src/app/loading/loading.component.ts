@@ -4,6 +4,10 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three-orbitcontrols-ts';
 import { ContainerFormResponse, PositionCargoesFormResponse, ProjectFormResponse } from '../interfaces/insert-form';
 import { LoadingServiceService } from '../loading-service.service'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
+import { FontLoader, Font } from 'three/examples/jsm/loaders/FontLoader';
+
+
 
 @Component({
   selector: 'app-loading',
@@ -23,17 +27,17 @@ export class LoadingComponent implements OnInit, AfterViewInit {
   cargoes: PositionCargoesFormResponse[] = [];
   container: ContainerFormResponse[] = [];
   visible = false;
-  projectId:any;
-  projectData:any;
+  projectId: any | null = null;
+  projectData!: ProjectFormResponse;
+  fontLoader!: FontLoader;
 
   constructor(private route: ActivatedRoute, private loadingServiceService: LoadingServiceService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-     this.projectId = params['id'];
-      console.log('Project ID:',  this.projectId);
+      this.projectId = params['id'] ? +params['id'] : null;
       this.loadingServiceService.getProjectByProject(this.projectId).subscribe(
-        (data: ProjectFormResponse[]) => {
+        (data: ProjectFormResponse) => {
           this.projectData = data;
           console.log(this.projectData);
         },
@@ -41,12 +45,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
           console.error('Error fetching positions:', error);
         }
       );
-
-      // นำ projectId ไปใช้งานต่อได้เช่นเดียวกับที่คุณต้องการ
   });
-    
-    // const projectId = 1; // เปลี่ยนเป็น project_id ที่คุณต้องการค้นหา
-
   }
 
   ngAfterViewInit() {
@@ -91,7 +90,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
     this.scene.add(axesHelper);
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth/1.2, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -102,7 +101,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
     // Plot containers and cargoes after setup
     this.plotContainersAndCargoes(this.container, this.cargoes);
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth/1.2, window.innerHeight);
 
     if (this.rendererContainer && this.rendererContainer.nativeElement) {
       this.rendererContainer.nativeElement.appendChild(this.renderer.domElement);
@@ -153,6 +152,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
       // Set container position
       box.position.set(positionX + scaledWidth / 2, 0 + scaledHeight / 2, 0 + scaledLength / 2);
       this.scene.add(box);
+      this.loadFontAndCreateText(container,positionX,scaledWidth,scaledHeight,scaledLength);
 
       // Plot cargoes in the current container
       cargoes.forEach(cargo => {
@@ -188,14 +188,63 @@ export class LoadingComponent implements OnInit, AfterViewInit {
       });
     });
   }
-  // getColorByType(type: number): number {
-  //   switch(type) {
-  //     case 1: return 0xff0000; // Red
-  //     case 2: return 0x00ff00; // Green
-  //     case 3: return 0x0000ff; // Blue
-  //     default: return 0xffffff; // White
-  //   }
-  // }
+  loadFontAndCreateText(container: any,positionX: number,scaledWidth: number,scaledHeight: number,scaledLength: number): void {
+    this.fontLoader = new FontLoader();
+    this.fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font: Font) => {
+      const geometry_id = new TextGeometry('Container ID: '+container.id, {
+        font: font,
+        size: 3,
+        height: 5,
+        depth: 0.5,
+      });
+      const geometry_size = new TextGeometry('Type: '+container.type_container_name, {
+        font: font,
+        size: 2,
+        height: 3.5,
+        depth: 0.5,
+      });
+      const width = new TextGeometry(':'+container.width, {
+        font: font,
+        size: 2,
+        height: 3.5,
+        depth: 0.2,
+      });
+      const length = new TextGeometry(':'+container.length, {
+        font: font,
+        size: 2,
+        height: 3,
+        depth: 0.2,
+      });
+      const height = new TextGeometry(':'+container.height, {
+        font: font,
+        size: 2,
+        height: 3.5,
+        depth: 0.2,
+      });
+
+
+      const material_id = new THREE.MeshBasicMaterial({ color: 0x00FFFF });
+      const material_t = new THREE.MeshBasicMaterial({ color: 0x1000000 });
+      const material_size = new THREE.MeshBasicMaterial({ color: 0x00FF00 });
+
+      const textMesh = new THREE.Mesh(geometry_id, material_id);
+      const textMesh1 = new THREE.Mesh(geometry_size, material_t);
+      const textwidth = new THREE.Mesh(width, material_size);
+      const textlength = new THREE.Mesh(length, material_size);
+      const textheight = new THREE.Mesh(height, material_size);
+      textMesh.position.set(positionX , 0 +scaledHeight+ 10, 0 );
+      textMesh1.position.set(positionX , 0 +scaledHeight+ 6, 0 );
+      textwidth.position.set(positionX +scaledWidth / 2 , 0 +scaledHeight+ 1, 0 );
+      textlength.position.set(positionX , scaledHeight+ 1, 0 + scaledLength / 2 );
+      textheight.position.set(positionX +scaledWidth , 0 +scaledHeight/ 2, 0 );
+      this.scene.add(textMesh);
+      this.scene.add(textMesh1);
+      this.scene.add(textheight);
+      this.scene.add(textwidth);
+      this.scene.add(textlength);
+    });
+  }
+
 
   animate() {
     requestAnimationFrame(() => {
@@ -208,7 +257,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth/1.2, window.innerHeight);
     this.render();
   }
 

@@ -1,0 +1,50 @@
+<nz-layout>
+  <nz-sider nzCollapsible nzWidth="200px">
+    <img class="logo"src="assets/img/logoW.jpg"/>
+    <ul nz-menu nzTheme="dark" nzMode="inline">
+      <li nz-menu-item (click)='graph()'>
+        <span nz-icon nzType="build" nzTheme="outline"></span>
+        <span>Packing 3D</span>
+      </li>
+      <li nz-menu-item (click)='projectinfo()'>
+        <span nz-icon nzType="table" nzTheme="outline"></span>
+        <span>Project Details</span>
+      </li>
+      <li nz-menu-item class="delete" (click)="deleteProject()">
+        <span nz-icon nzType="delete" nzTheme="outline"></span>
+        <span>Delete</span>
+      </li>
+      <li nz-menu-item [routerLink]="'/home/projects'">
+        <span nz-icon nzType="home" nzTheme="outline"></span>
+        <span>back</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div *ngIf="projectData;" >
+        <div nz-row>
+          <div nz-col [nzSpan]="6" >
+            <h1 class="texthead">Project: {{projectData.name}} </h1>
+          </div>
+          <div nz-col [nzSpan]="4" class="text2">
+            <div *ngIf="projectData.weight_check; else NOweight">
+              <p >| Pack with Weight Check</p>
+            </div>
+            <ng-template #NOweight> <p >| Pack without Weight Check</p></ng-template>
+          </div>
+        </div>
+
+
+      </div>
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb>
+      </nz-breadcrumb>
+      <div class="inner-content">
+          <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>

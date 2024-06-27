@@ -28,7 +28,6 @@ import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
     NzSelectModule,
     NzInputModule,
     NzDescriptionsModule,
-
   ],
   exports: [
     LoadingComponent1,
