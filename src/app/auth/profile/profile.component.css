@@ -1,0 +1,136 @@
+.container{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+.content{
+  padding: 30px 30px;
+  height: 80%;
+  width: 80%;
+  background-color: #fff;
+  justify-content: center;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+}
+.content .profile{
+  text-align: center;
+
+}
+
+.content .profile .p{
+  height: 70px;
+}
+
+.content .profile .p h1{
+    padding: 20px ;
+    width: 100%;
+    font-size: 35px;
+    font-weight: 500;
+    color: #3D48ED;
+    box-shadow: 0 7px 1px rgba(0,0,0,0.15);
+  }
+
+  .content .profile .img{
+    padding: 15% 0px;
+  }
+
+  .content .profile  .delete{
+    width: 90%;
+    height: 40px;
+    background-color: #CE1313;
+    font-size: 20px;
+    color: #fff;
+    margin-top: 20px;
+  }
+  .content .profile  .delete:hover{
+    background-color: #fff;
+    color: #CE1313;
+  }
+
+  .content .profile  .edit{
+    width: 90%;
+    height: 40px;
+    background-color: #3D48ED;
+    font-size: 20px;
+    color: #fff;
+    margin-top: 20px;
+  }
+  .content .profile  .edit:hover{
+    background-color: #fff;
+    color: #3D48ED;
+  }
+
+
+  .content .save{
+    width: 100%;
+    height: 50px;
+    background-color: #57B82D;
+    font-size: 20px;
+    color: #fff;
+    margin-top: 20px;
+  }
+  .content .save:hover{
+    background-color: #fff;
+    color: #57B82D;
+  }
+  .content .cancel{
+    width: 100%;
+    height: 50px;
+    background-color: #f9b234;
+    font-size: 20px;
+    color: #fff;
+    margin-top: 20px;
+  }
+  .content .cancel:hover{
+    background-color: #fff;
+    color: #f9b234;
+  }
+
+
+
+.content form .user-details{
+  padding: 40px 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+}
+form .user-details .input-box{
+  margin-bottom: 15px;
+  width: calc(100% / 2 - 20px);
+}
+form .input-box span.details{
+  display: block;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.user-details .input-box input{
+  display: inline;
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
+.user-details .input-box input:focus,
+.user-details .input-box input:valid{
+  border-color: #9b59b6;
+}
+
+.user-details .input-box nz-input-number{
+  height: 45px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}

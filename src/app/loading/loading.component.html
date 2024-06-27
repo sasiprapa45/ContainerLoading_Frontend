@@ -1,12 +1,23 @@
 
 
-<div>
-  <p>Received Data: {{ receivedData }}</p>
-  <button >click</button>
-  <!-- <canvas #canvas id="canvas" style="height: 100%; width: 100%;" ></canvas> -->
-  <div #rendererContainer></div>
-  <!-- <div id="container"></div> -->
-  <!-- <ngt-orbit-controls *args="[camera, glDom]" [enableDamping]="true" /> -->
+<div >
+  <div nz-row>
+    <div nz-col [nzSpan]="18" >
+      <nz-descriptions nzTitle="Project Info" nzBordered *ngIf="projectData">
+        <nz-descriptions-item  nzTitle="total Cargoes qty.">{{this.projectData.cargoes_qty}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="total Container qty.">{{this.projectData.container_qty}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Fitness Value">{{this.projectData.fitness}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Packed Cargoes qty.">{{this.projectData.cargoes_packed}}</nz-descriptions-item>
+        <nz-descriptions-item nzTitle="Used Container qty." >{{this.projectData.container_used}}</nz-descriptions-item>
+      </nz-descriptions>
+    </div>
+    <div nz-col [nzSpan]="6" >
+    </div>
+  </div>
+
+  <div #rendererContainer class="renderer-container"></div>
+  <div id="threejs-container"></div>
+  <div id="table-container"></div>
 
 </div>
 

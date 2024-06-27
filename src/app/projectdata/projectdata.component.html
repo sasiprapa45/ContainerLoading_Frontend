@@ -1,0 +1,48 @@
+<div class="card-container1"  role="main">
+  <nz-tabset>
+    <nz-tab nzTitle="Cargoes Packing" >
+      <nz-table #basicTable [nzData]="position_list" class="fixed-height-table" *ngIf="position_list.length">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>size(cm) WxLxH</th>
+            <th>weight</th>
+            <th>Position(x,y,z)</th>
+            <th>Container </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable.data; ">
+            <td>{{ data.cargoes_id }}</td>
+            <td>{{ data.name }}</td>
+            <td>{{ data.width }}x{{ data.length }}x{{ data.height }}</td>
+            <td>{{ data.weight }} kg </td>
+            <td>X: {{ data.X }}  Y:{{ data.Y }}  Z:{{ data.Z }}</td>
+            <td>Container ID: {{ data.container_id }}</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-tab>
+    <nz-tab nzTitle="Container" >
+      <nz-table #basicTable1 [nzData]="container_list" class="fixed-height-table" *ngIf="container_list.length">
+        <thead>
+          <tr>
+            <th>container ID:</th>
+            <th>type_container</th>
+            <th>size(cm) WxLxH</th>
+            <th>Packing weight / Limit weight (kg)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of basicTable1.data; let i = index; trackBy: trackByIndex1">
+            <td>{{ data.id}}</td>
+            <td>{{ data.type_container_id}}</td>
+            <td>{{ data.width }}x{{ data.length }}x{{ data.height }}</td>
+            <td>{{ data.packing_weight }} / {{ data.limit_weight }} kg</td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </nz-tab>
+  </nz-tabset>
+  </div>

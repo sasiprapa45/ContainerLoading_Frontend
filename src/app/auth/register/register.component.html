@@ -1,0 +1,114 @@
+
+<div class="register">
+  <div class="container">
+    <div class="form-header">
+      <div nz-row>
+        <div nz-col [nzSpan]="4" >
+          <button [routerLink]="'/login'"><span nz-icon nzType="arrow-left" nzTheme="outline" style="font-size: 30px; color: #fff;"></span></button>
+        </div>
+        <div nz-col [nzSpan]="20">
+          <h1>Create Account</h1>
+        </div>
+      </div>
+    </div>
+    <div class="data">
+      <!-- <div class="title">Registration</div> -->
+      <div class="content">
+        <form nz-form [formGroup]="registerForm" nzLayout="vertical">
+          <div class="user-details">
+
+            <nz-form-item class="input-box" >
+              <nz-form-label nzSpan="7" nzRequired nzFor="username">Username</nz-form-label>
+              <nz-form-control nzErrorTip="Please input your username!">
+                <input nz-input type="text" formControlName="username" id="username">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label [nzSpan]="10.5" nzRequired>Password</nz-form-label>
+              <nz-form-control  nzHasFeedback nzErrorTip="Please input your password!">
+                <input nz-input type="password" formControlName="password" (ngModelChange)="validateConfirmPassword()"  placeholder="input your password"/>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label [nzSpan]="10.5" nzRequired>Confirm Password</nz-form-label>
+              <nz-form-control  nzHasFeedback [nzErrorTip]="passwordErrorTpl">
+                <input nz-input type="password" formControlName="confirm" placeholder="confirm your password" />
+                <ng-template #passwordErrorTpl let-control>
+                  <ng-container *ngIf="control.errors?.confirm">
+                    Password is inconsistent!
+                  </ng-container>
+                  <ng-container *ngIf="control.errors?.required">
+                    Please confirm your password!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7" nzRequired nzFor="first_name">FirstName</nz-form-label>
+              <nz-form-control  nzErrorTip="Please input your first name!">
+                <input nz-input type="text" formControlName="first_name" id="first_name">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7"  nzRequired nzFor="first_name">Last name</nz-form-label>
+              <nz-form-control nzErrorTip="Please input your last name!">
+                <input nz-input type="text" formControlName="last_name" id="last_name">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7" nzRequired nzFor="first_name">Age (10+)</nz-form-label>
+              <nz-form-control [nzErrorTip]="ageErrorTpl">
+              <nz-input-number
+                formControlName="age"
+                [nzStep]="1"
+              ></nz-input-number>
+              <ng-template #ageErrorTpl let-control>
+                <ng-container *ngIf="control.errors?.min">
+                  Age must be at least 10!
+                </ng-container>
+                <ng-container *ngIf="control.errors?.required">
+                  Please input your Age!
+                </ng-container>
+              </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7" nzRequired nzFor="email">E-mail</nz-form-label>
+              <nz-form-control  [nzErrorTip]="emailErrorTpl">
+                <input nz-input type="email" formControlName="email" id="email" required>
+                <ng-template #emailErrorTpl let-control>
+                  <ng-container *ngIf="control.errors?.email">
+                    The input is not valid E-mail!
+                  </ng-container>
+                  <ng-container *ngIf="control.errors?.required">
+                    Please input your E-mail!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+
+          </div>
+          <div class="gender-details">
+            <span class="details">Address</span>
+            <textarea formControlName="address" id="address"></textarea>
+          </div>
+          <div class="button">
+            <button (click)="register()" >Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>

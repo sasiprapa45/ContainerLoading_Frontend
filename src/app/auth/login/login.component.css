@@ -1,0 +1,149 @@
+
+.text1 {
+  color: #3D48ED;
+}
+.text1 span {
+  color:#f9b234;
+}
+
+.text2 {
+  color: #f9b234;
+}
+
+.content {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  height: 100vh;
+  background-image: url('/assets/img/ContainerLoadingGif.gif'); /* เส้นทางสัมบูรณ์จาก root ของโปรเจ็กต์ */
+  background-size: cover; /* ปรับขนาดให้ครอบคลุม */
+  background-position: center; /* ตำแหน่งกลาง */
+
+}
+.container {
+  display: flex;
+  flex: 1;
+}
+.image-container {
+  flex: 1.40;
+  /* background-color: #f0f0f0; */
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+.background-image {
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/img/ContainerLoadingGif.gif'); /* เส้นทางสัมบูรณ์จาก root ของโปรเจ็กต์ */
+  background-size: cover; /* ปรับขนาดให้ครอบคลุม */
+  background-position: center; /* ตำแหน่งกลาง */
+
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.top-left {
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  color:#fff;
+  font-size: 10em;
+}
+
+.divider {
+  position: absolute;
+  top: 47%;
+  width: 75%;
+  border: none;
+  border-top: 3px solid #fff;
+}
+
+.top-left1 {
+  position: absolute;
+  top: 51%;
+  left: 18%;
+  color:#fff;
+  font-size: 3.5em;
+}
+.top-left1 span{
+  color:#fff;
+  font-size: 35px;
+}
+.form-container {
+  flex: 0.60;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #ffffff;
+  border-top-left-radius: 170px;
+  border-bottom-left-radius: 170px;
+  
+}
+
+.form-container img{
+  width: 50%;
+  height: 20%;
+}
+.form-container h2 {
+  display: block;
+  font-size: 2em;
+  margin-top: 1.5em;
+  margin-bottom: 0.83em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+.form-container h3 {
+  display: block;
+  font-size: 1.25em;
+  margin-top: 0.83em;
+  margin-bottom: 0.83em;
+  margin-left: 0;
+  margin-right: 0;
+  text-align: center;
+}
+.form-container form {
+  width: 100%;
+  max-width: 350px;
+}
+.form-container form input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+}
+.form-container form button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f9b234;
+  color: white;
+  font-size: 16px;
+}
+
+.form-container form button:hover {
+  background-color: #3D48ED;
+
+}
+.form-container form a {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #007BFF;
+  text-decoration: none;
+}
+.register-link {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.register-link a:hover {
+  color: #f9b234;
+}

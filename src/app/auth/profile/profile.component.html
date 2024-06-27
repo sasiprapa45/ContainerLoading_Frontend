@@ -1,0 +1,104 @@
+<div class = "container">
+<div class="content">
+  <div nz-row>
+    <div nz-col [nzSpan]="5" class="profile">
+
+      <nz-avatar [nzShape]="'square'" [nzSize]="150" [nzIcon]="'user'"></nz-avatar>
+
+    </div>
+    <div nz-col [nzSpan]="19" class="profile">
+      <div class="p"><h1>My Profile</h1></div>
+      <div nz-row>
+        <div nz-col [nzSpan]="12" class="profile">
+          <button class="edit" type="button" (click)="enableEdit()" *ngIf="!isEditMode">Edit</button>
+        </div>
+        <div nz-col [nzSpan]="12" class="profile">
+          <button class="delete" type="button" (click)="deleteUser()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="user">
+      <form nz-form [formGroup]="userForm"  class="user-details" nzLayout="vertical">
+        <div class="user-details">
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7" nzRequired nzFor="username">Username</nz-form-label>
+              <nz-form-control  nzErrorTip="Please input your username!">
+                <input nz-input type="text" formControlName="username" id="username">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7" nzRequired nzFor="email">E-mail</nz-form-label>
+              <nz-form-control  [nzErrorTip]="emailErrorTpl">
+                <input nz-input type="email" formControlName="email" id="email" required>
+                <ng-template #emailErrorTpl let-control>
+                  <ng-container *ngIf="control.errors?.email">
+                    The input is not valid E-mail!
+                  </ng-container>
+                  <ng-container *ngIf="control.errors?.required">
+                    Please input your E-mail!
+                  </ng-container>
+                </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7" nzRequired nzFor="first_name">FirstName</nz-form-label>
+              <nz-form-control  nzErrorTip="Please input your first name!">
+                <input nz-input type="text" formControlName="first_name" id="first_name">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7" nzRequired nzFor="first_name">Last name</nz-form-label>
+              <nz-form-control  nzErrorTip="Please input your last name!">
+                <input nz-input type="text" formControlName="last_name" id="last_name">
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7" nzRequired nzFor="first_name">Age (10+)</nz-form-label>
+              <nz-form-control  [nzErrorTip]="ageErrorTpl">
+              <nz-input-number
+                formControlName="age"
+
+                [nzStep]="1"
+              ></nz-input-number>
+              <ng-template #ageErrorTpl let-control>
+                <ng-container *ngIf="control.errors?.min">
+                  Age must be at least 10!
+                </ng-container>
+                <ng-container *ngIf="control.errors?.required">
+                  Please input your Age!
+                </ng-container>
+              </ng-template>
+              </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item class="input-box">
+              <nz-form-label nzSpan="7" nzRequired nzFor="address">Address</nz-form-label>
+              <nz-form-control  nzErrorTip="Please input your address!">
+                <input nz-input type="text" formControlName="address" id="address">
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-row >
+            <div nz-col [nzSpan]="6">
+              <button class="cancel" type="button" (click)="disableEdit()" *ngIf="isEditMode">Cancel</button>
+            </div>
+            <div nz-col [nzSpan]="12">
+
+            </div>
+            <div nz-col [nzSpan]="6">
+              <button class="save" type="button" (click)="saveUser()" *ngIf="isEditMode">Save</button>
+            </div>        
+          </div>
+      </form>
+    
+    </div>
+
+</div>
+</div>

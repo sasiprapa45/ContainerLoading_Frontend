@@ -7,7 +7,11 @@ import { LoadingComponent as LoadingComponent1} from './loading.component';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from '../app-routing.module';
-
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzDescriptionsModule } from 'ng-zorro-antd/descriptions';
 
 
 @NgModule({
@@ -19,7 +23,11 @@ import { AppRoutingModule } from '../app-routing.module';
     LoadingRoutingModule,
     RouterModule,
     AppRoutingModule,
-
+    NzDrawerModule,
+    NzGridModule,
+    NzSelectModule,
+    NzInputModule,
+    NzDescriptionsModule,
   ],
   exports: [
     LoadingComponent1,

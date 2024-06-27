@@ -4,7 +4,7 @@ import { HomeComponent } from './home.component';
 import { InsertdataComponent } from '../insertdata/insertdata.component';
 import { ProjectsComponent } from '../projects/projects.component';
 
-const routes: Routes = [{ path: '', component: HomeComponent },{ path: 'Insertdata', component: InsertdataComponent },{ path: 'projects', component: ProjectsComponent }];
+const routes: Routes = [{ path: '', component: HomeComponent },{ path: 'Insertdata', component: InsertdataComponent }];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

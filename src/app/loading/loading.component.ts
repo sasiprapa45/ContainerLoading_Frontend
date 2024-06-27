@@ -2,8 +2,12 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
 import { ActivatedRoute } from '@angular/router';
 import * as THREE from 'three';
 import { OrbitControls } from 'three-orbitcontrols-ts';
-import { ContainerFormResponse, PositionCargoesFormResponse } from '../interfaces/insert-form';
+import { ContainerFormResponse, PositionCargoesFormResponse, ProjectFormResponse } from '../interfaces/insert-form';
 import { LoadingServiceService } from '../loading-service.service'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry';
+import { FontLoader, Font } from 'three/examples/jsm/loaders/FontLoader';
+
+
 
 @Component({
   selector: 'app-loading',
@@ -22,13 +26,30 @@ export class LoadingComponent implements OnInit, AfterViewInit {
   controls!: OrbitControls;
   cargoes: PositionCargoesFormResponse[] = [];
   container: ContainerFormResponse[] = [];
-
+  visible = false;
+  projectId: any | null = null;
+  projectData!: ProjectFormResponse;
+  fontLoader!: FontLoader;
 
   constructor(private route: ActivatedRoute, private loadingServiceService: LoadingServiceService) { }
 
   ngOnInit(): void {
-    const projectId = 22; // เปลี่ยนเป็น project_id ที่คุณต้องการค้นหา
-    this.loadingServiceService.getContainerByProject(projectId).subscribe(
+    this.route.queryParams.subscribe(params => {
+      this.projectId = params['id'] ? +params['id'] : null;
+      this.loadingServiceService.getProjectByProject(this.projectId).subscribe(
+        (data: ProjectFormResponse) => {
+          this.projectData = data;
+          console.log(this.projectData);
+        },
+        error => {
+          console.error('Error fetching positions:', error);
+        }
+      );
+  });
+  }
+
+  ngAfterViewInit() {
+    this.loadingServiceService.getContainerByProject(this.projectId).subscribe(
       (data: ContainerFormResponse[]) => {
         this.container = data;
         console.log(this.container);
@@ -37,7 +58,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
         console.error('Error fetching positions:', error);
       }
     );
-    this.loadingServiceService.getPositionsByProject(projectId).subscribe(
+    this.loadingServiceService.getPositionsByProject(this.projectId).subscribe(
       (data: PositionCargoesFormResponse[]) => {
         this.cargoes = data;
         console.log(this.cargoes);
@@ -47,11 +68,6 @@ export class LoadingComponent implements OnInit, AfterViewInit {
         console.error('Error fetching positions:', error);
       }
     );
-
-
-  }
-
-  ngAfterViewInit() {
 
 
   }
@@ -74,7 +90,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
     this.scene.add(axesHelper);
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth/1.2, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -85,7 +101,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
     // Plot containers and cargoes after setup
     this.plotContainersAndCargoes(this.container, this.cargoes);
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth/1.2, window.innerHeight);
 
     if (this.rendererContainer && this.rendererContainer.nativeElement) {
       this.rendererContainer.nativeElement.appendChild(this.renderer.domElement);
@@ -136,6 +152,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
       // Set container position
       box.position.set(positionX + scaledWidth / 2, 0 + scaledHeight / 2, 0 + scaledLength / 2);
       this.scene.add(box);
+      this.loadFontAndCreateText(container,positionX,scaledWidth,scaledHeight,scaledLength);
 
       // Plot cargoes in the current container
       cargoes.forEach(cargo => {
@@ -148,7 +165,7 @@ export class LoadingComponent implements OnInit, AfterViewInit {
           // Adjust axes: X = width, Y = height, Z = length
           const cargoGeometry = new THREE.BoxGeometry(scaledCargoWidth, scaledCargoHeight, scaledCargoLength);
           const cargoMaterial = new THREE.MeshBasicMaterial({
-            color: this.getColorByType(cargo.type_cargo_id),
+            color: new THREE.Color(cargo.color),
             transparent: true,
             opacity: 0.5 // Set opacity to make the box look transparent
           });
@@ -171,14 +188,63 @@ export class LoadingComponent implements OnInit, AfterViewInit {
       });
     });
   }
-  getColorByType(type: number): number {
-    switch(type) {
-      case 1: return 0xff0000; // Red
-      case 2: return 0x00ff00; // Green
-      case 3: return 0x0000ff; // Blue
-      default: return 0xffffff; // White
-    }
+  loadFontAndCreateText(container: any,positionX: number,scaledWidth: number,scaledHeight: number,scaledLength: number): void {
+    this.fontLoader = new FontLoader();
+    this.fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font: Font) => {
+      const geometry_id = new TextGeometry('Container ID: '+container.id, {
+        font: font,
+        size: 3,
+        height: 5,
+        depth: 0.5,
+      });
+      const geometry_size = new TextGeometry('Type: '+container.type_container_name, {
+        font: font,
+        size: 2,
+        height: 3.5,
+        depth: 0.5,
+      });
+      const width = new TextGeometry(':'+container.width, {
+        font: font,
+        size: 2,
+        height: 3.5,
+        depth: 0.2,
+      });
+      const length = new TextGeometry(':'+container.length, {
+        font: font,
+        size: 2,
+        height: 3,
+        depth: 0.2,
+      });
+      const height = new TextGeometry(':'+container.height, {
+        font: font,
+        size: 2,
+        height: 3.5,
+        depth: 0.2,
+      });
+
+
+      const material_id = new THREE.MeshBasicMaterial({ color: 0x00FFFF });
+      const material_t = new THREE.MeshBasicMaterial({ color: 0x1000000 });
+      const material_size = new THREE.MeshBasicMaterial({ color: 0x00FF00 });
+
+      const textMesh = new THREE.Mesh(geometry_id, material_id);
+      const textMesh1 = new THREE.Mesh(geometry_size, material_t);
+      const textwidth = new THREE.Mesh(width, material_size);
+      const textlength = new THREE.Mesh(length, material_size);
+      const textheight = new THREE.Mesh(height, material_size);
+      textMesh.position.set(positionX , 0 +scaledHeight+ 10, 0 );
+      textMesh1.position.set(positionX , 0 +scaledHeight+ 6, 0 );
+      textwidth.position.set(positionX +scaledWidth / 2 , 0 +scaledHeight+ 1, 0 );
+      textlength.position.set(positionX , scaledHeight+ 1, 0 + scaledLength / 2 );
+      textheight.position.set(positionX +scaledWidth , 0 +scaledHeight/ 2, 0 );
+      this.scene.add(textMesh);
+      this.scene.add(textMesh1);
+      this.scene.add(textheight);
+      this.scene.add(textwidth);
+      this.scene.add(textlength);
+    });
   }
+
 
   animate() {
     requestAnimationFrame(() => {
@@ -191,138 +257,20 @@ export class LoadingComponent implements OnInit, AfterViewInit {
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(window.innerWidth/1.2, window.innerHeight);
     this.render();
   }
 
   render() {
     this.renderer.render(this.scene, this.camera);
   }
+
+  open(): void {
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
+  }
+
 }
-// init() {
-  //   const width = this.rendererContainer.nativeElement.clientWidth;
-  //   const height = this.rendererContainer.nativeElement.clientHeight;
-
-  //   // Create scene
-  //   this.scene = new THREE.Scene();
-
-  //   // Create camera
-  //   this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-  //   this.camera.position.Z = 5;
-
-  //   // Create renderer
-  //   this.renderer = new THREE.WebGLRenderer();
-  //   this.renderer.setSize(width, height);
-  //   this.rendererContainer.nativeElement.appendChild(this.renderer.domElement);
-
-  //   // Create cube
-  //   const geometry = new THREE.BoxGeometry();
-  //   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  //   const cube = new THREE.Mesh(geometry, material);
-  //   this.scene.add(cube);
-  // }
-
-  // animate() {
-  //   requestAnimationFrame(() => this.animate());
-  //   this.renderer.render(this.scene, this.camera);
-  // }
-
-  // clickG(){
-  //   this.init();
-  //   this.animate();
-  // }
-
-
-
-
-
-
-
-
-
-
-// createThreeJsBox(): void {
-  //   const canvas = document.getElementById('canvas-box');
-
-  //   const scene = new THREE.Scene();
-
-  //   const material = new THREE.MeshToonMaterial();
-
-  //   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-  //   scene.add(ambientLight);
-
-  //   const pointLight = new THREE.PointLight(0xffffff, 0.5);
-  //   pointLight.position.X = 2;
-  //   pointLight.position.Y = 2;
-  //   pointLight.position.Z = 2;
-  //   scene.add(pointLight);
-
-  //   const box = new THREE.Mesh(
-  //     new THREE.BoxGeometry(1.5, 1.5, 1.5),
-  //     material
-  //   );
-
-  //   const torus = new THREE.Mesh(
-  //     new THREE.TorusGeometry(5, 1.5, 16, 100),
-  //     material
-  //   );
-
-  //   scene.add(torus, box);
-
-  //   const canvasSizes = {
-  //     width: window.innerWidth,
-  //     height: window.innerHeight,
-  //   };
-
-  //   const camera = new THREE.PerspectiveCamera(
-  //     75,
-  //     canvasSizes.width / canvasSizes.height,
-  //     0.001,
-  //     1000
-  //   );
-  //   camera.position.Z = 30;
-  //   scene.add(camera);
-
-  //   if (!canvas) {
-  //     return;
-  //   }
-
-  //   const renderer = new THREE.WebGLRenderer({
-  //     canvas: canvas,
-  //   });
-  //   renderer.setClearColor(0xe232222, 1);
-  //   renderer.setSize(canvasSizes.width, canvasSizes.height);
-
-  //   window.addEventListener('resize', () => {
-  //     canvasSizes.width = window.innerWidth;
-  //     canvasSizes.height = window.innerHeight;
-
-  //     camera.aspect = canvasSizes.width / canvasSizes.height;
-  //     camera.updateProjectionMatrix();
-
-  //     renderer.setSize(canvasSizes.width, canvasSizes.height);
-  //     renderer.render(scene, camera);
-  //   });
-
-  //   const clock = new THREE.Clock();
-
-  //   const animateGeometry = () => {
-  //   const elapsedTime = clock.getElapsedTime();
-
-  //   // Update animation objects
-  //   box.rotation.X = elapsedTime;
-  //   box.rotation.Y = elapsedTime;
-  //   box.rotation.Z = elapsedTime;
-
-  //   torus.rotation.X = -elapsedTime;
-  //   torus.rotation.Y = -elapsedTime;
-  //   torus.rotation.Z = -elapsedTime;
-
-  //   // Render
-  //   renderer.render(scene, camera);
-
-  //   // Call animateGeometry again on the next frame
-  //   window.requestAnimationFrame(animateGeometry);
-  // };
-  // animateGeometry();
-  // }

@@ -7,6 +7,11 @@ import { InsertdataComponent} from './insertdata.component';
 import { HomeModule } from '../home/home.module';
 // import { AppModule } from '../app.module';
 import { FormsModule } from '@angular/forms';
+import { NzGridModule } from 'ng-zorro-antd/grid';
+import { NzTableModule } from 'ng-zorro-antd/table';
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
+
 
 @NgModule({
   declarations: [
@@ -14,6 +19,10 @@ import { FormsModule } from '@angular/forms';
   imports: [
     InsertdataRoutingModule,
     CommonModule,
+    NzGridModule,
+    NzTableModule,
+    NzDividerModule,
+    NzRadioModule,
     // AppModule,
   ]
 })
